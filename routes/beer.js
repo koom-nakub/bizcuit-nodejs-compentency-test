@@ -6,9 +6,10 @@ var _ = require('lodash')
 router.get('/random', async (req, res) => {
   try {
     let response = {}
-    const beer = await BeerModel.findOne()
-    if (!_.isEmpty(beer)) {
-      const rawData = beer
+    const rawBeer = await BeerModel.find()
+    if (!_.isEmpty(rawBeer)) {
+      const random = Math.floor(Math.random() * rawBeer.length)
+      const rawData = rawBeer[random]
       const { randomCount, _id, uid, brand, name, style, hop, yeast, malts, ibu, alcohol, blg } = rawData
       await BeerModel.findOneAndUpdate({ _id: _id }, { $inc: { randomCount: 1 } })
       response = {
