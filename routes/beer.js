@@ -8,7 +8,6 @@ router.get('/random', async (req, res) => {
     let response = {}
     const beer = await BeerModel.findOne()
     if (!_.isEmpty(beer)) {
-      //   // const rawData = await BeerModel.findByIdAndUpdate(beer._id,  })
       const rawData = beer
       const { randomCount, _id, uid, brand, name, style, hop, yeast, malts, ibu, alcohol, blg } = rawData
       await BeerModel.findOneAndUpdate({ _id: _id }, { $inc: { randomCount: 1 } })
@@ -35,7 +34,6 @@ router.get('/random', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const payload = req.body
-  console.log('payload', payload)
   try {
     const beer = new BeerModel(payload)
     await beer.save()
