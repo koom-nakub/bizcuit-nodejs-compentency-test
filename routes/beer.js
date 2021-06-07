@@ -36,14 +36,12 @@ router.get('/random', async (req, res) => {
 router.post('/', async (req, res) => {
   const payload = req.body
   console.log('payload', payload)
-  const beer = new BeerModel(payload)
-  const error = beer.validateSync()
-  if (_.isUndefined(error)) {
+  try {
+    const beer = new BeerModel(payload)
     await beer.save()
     res.status(201).json({ message: 'Created!!' })
-  } else {
-    console.log('error', error)
-    res.status(400).json({ message: 'Fail to create !!' })
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 })
 
